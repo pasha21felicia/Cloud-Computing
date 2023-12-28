@@ -20,9 +20,9 @@ time.sleep(10)
 app = Flask(__name__)
 CORS(app, supports_credentials=True, expose_headers='Authorization', origins=['http://localhost:8080'])
 
-# app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql_articles://root:root@localhost/app_news'          # mysql_articles local db
-app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql://root:rootpass@192.168.0.4:3306/app_news'       # docker-compose db
-# app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql_articles://'+DB_USER+':'+DB_PASSWORD+'@'+DB_ENDPOINT+':3306/'+DATABASE_NAME   # general db
+# app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql://root:root@localhost/app_news'          # mysql_articles local db
+app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql://admin:adminpass@192.168.0.4:3306/app_news'       # docker-compose db
+# app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql://'+DB_USER+':'+DB_PASSWORD+'@'+DB_ENDPOINT+':3306/'+DATABASE_NAME   # general db
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 app.config['WTF_CSRF_ENABLED'] = False
 app.config['JWT_SECRET_KEY'] = '8bf194eca505a14a48a079410fdbd100'

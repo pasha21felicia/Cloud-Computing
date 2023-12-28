@@ -40,11 +40,20 @@ services:
       volumes:
         - mysql-data:/var/lib/mysql
 
+  adminer:
+    image: adminer
+    restart: always
+    networks:
+      my_network:
+        ipv4_address: 192.168.0.5
+    ports:
+      - 9090:8080
+
   frontend:
     build: ./frontend
     networks:
       my_network:
-        ipv4_address: 192.168.0.5
+        ipv4_address: 192.168.0.6
     ports:
       - "8080:8080"
 
