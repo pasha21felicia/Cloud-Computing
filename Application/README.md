@@ -66,10 +66,10 @@ dbeaver
    # Normally the .env file should contain these data but in the code
    # For now they are hardcoded in ./backend/config.py line 23 and ./authentification/config.py line 23
    DB_USER=admin
-   DB_PASSWORD=admin
-   DB_HOST=localhost/192.168.0.3
+   DB_PASSWORD=adminpass
+   DB_HOST=192.168.0.4
    DB_NAME=app_news
-   DB_ROOT_PASSWORD=mypass
+   DB_ROOT_PASSWORD=rootpass
     ```
 
 2. In the root folder Install the repo and flask/python dependencies typing in your terminal the following commands:

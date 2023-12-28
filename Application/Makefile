@@ -10,9 +10,9 @@ help:  ## Show this help.
 .env:
 	@touch ${ENV_FILE}
 	@touch ${LOCAL_ENV_FILE}
-	@echo "LOCALHOST=" >> ${ENV_FILE}
-	@echo "DB_ENDPOINT=" >> ${ENV_FILE}
-	@echo "DATABASE_NAME=" >> ${ENV_FILE}
+	@echo "DB_ROOT_PASSWORD=" >> ${ENV_FILE}
+	@echo "DB_HOST=" >> ${ENV_FILE}
+	@echo "DB_NAME=" >> ${ENV_FILE}
 	@echo "DB_PASSWORD=" >> ${ENV_FILE}
 	@echo "DB_USER=" >> ${ENV_FILE}
 	@echo "#!/bin/sh" > ${LOCAL_ENV_FILE}
