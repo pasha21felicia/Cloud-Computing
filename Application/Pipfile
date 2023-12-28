@@ -1,0 +1,30 @@
+[[source]]
+url = "https://pypi.org/simple"
+verify_ssl = true
+name = "pypi"
+
+[packages]
+flask = "*"
+flask-sqlalchemy = "*"
+mysql = "*"
+mysqlclient = "*"
+flask-mysqldb = "*"
+marshmallow-sqlalchemy = "*"
+flask-marshmallow = "*"
+npm = "*"
+flask-cors = "*"
+direnv = "*"
+flake8 = "*"
+flask-bcrypt = "*"
+flask-wtf = "*"
+wtforms = "*"
+email-validator = "*"
+python-dotenv = "*"
+flask-login = "*"
+flask-jwt-extended = "*"
+boto3 = "*"
+
+[dev-packages]
+
+[requires]
+python_version = "3.11"

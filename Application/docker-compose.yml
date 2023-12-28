@@ -1,0 +1,58 @@
+version: "3.9"
+
+services:
+  authentification:
+    build: ./authentification
+    networks:
+      my_network:
+        ipv4_address: 192.168.0.2
+    ports:
+      - "8001:8001"
+    depends_on:
+      - db
+    environment:
+      - DATABASE_URL=mysql://root:rootpass@192.168.0.4:3306/app_news
+
+  backend:
+    build: ./backend
+    networks:
+      my_network:
+        ipv4_address: 192.168.0.3
+    ports:
+      - "8000:8000"
+    depends_on:
+      - db
+    environment:
+      - DATABASE_URL=mysql://root:rootpass@192.168.0.4:3306/app_news
+
+  db:
+      build: ./mysql_articles
+      networks:
+        my_network:
+          ipv4_address: 192.168.0.4
+      ports:
+        - "3306:3306"
+      environment:
+        MYSQL_ROOT_PASSWORD: rootpass
+        MYSQL_DATABASE: app_news
+        MYSQL_USER: admin
+        MYSQL_PASSWORD: adminpass
+      volumes:
+        - mysql-data:/var/lib/mysql
+
+  frontend:
+    build: ./frontend
+    networks:
+      my_network:
+        ipv4_address: 192.168.0.5
+    ports:
+      - "8080:8080"
+
+volumes:
+    mysql-data:
+
+networks:
+  my_network:
+    ipam:
+      config:
+        - subnet: 192.168.0.0/24
