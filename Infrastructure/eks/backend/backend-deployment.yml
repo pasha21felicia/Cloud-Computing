@@ -1,0 +1,19 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: appnews-backend-deployment
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: appnews-backend
+  template:
+    metadata:
+      labels:
+        app: appnews-backend
+    spec:
+      containers:
+      - name: appnews-backend
+        image: 634267044080.dkr.ecr.us-east-1.amazonaws.com/ecr-backend-image:latest
+        ports:
+        - containerPort: 8000
