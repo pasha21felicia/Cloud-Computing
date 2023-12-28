@@ -36,14 +36,13 @@ dbeaver
    /opt/homebrew/bin/mysql -u root
    
    # Setup the root password
-   ALTER USER 'root'@'localhost' IDENTIFIED BY 'mypass';
+   ALTER USER 'root'@'localhost' IDENTIFIED BY 'rootpass';
    
    # Exit mysql CTL+X/C/Z and Login with the root password
    /opt/homebrew/bin/mysql -u root -p
    # Enter the root password
    
    # Create the databases for Users and for Articles
-   CREATE DATABASE app_users;
    CREATE DATABASE app_news;
    USE app_news;
    ```
@@ -52,8 +51,8 @@ dbeaver
    ```
    HOST = localhost
    user = root
-   password = mypass
-   database = app_news/app_users
+   password = rootpass
+   database = app_news
    port = 3306
    ```
    

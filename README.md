@@ -12,6 +12,8 @@ In total 5 microservices, each in a separate folder (besides adminer):
 
 In README.md from Application folder are instructions how to setup the project locally and through docker compose.
 
+### The Database
+Is mysql, simple with 2 tables, Articles and Users, not connected through any foreign key, I want to add it later.
 
 ## Infrastructure
 
