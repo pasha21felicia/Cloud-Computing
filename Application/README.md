@@ -1,16 +1,15 @@
 ## Description
 
-Final Degree Project: App News implemented in Flask and Vue.js, deployed on Docker and AWS Cloud
-new change
+App News implemented in Flask and Vue.js, deployed on Docker and K8S
 
 ## Setup Local Version🧰
 
 ### Prerequisites 
-python3.11
-pipenv 
-pip3
-mysql
-dbeaver
+- python3.11
+- pipenv 
+- pip3
+- mysql
+- dbeaver
 
 0. Optional: In case you get errors installing the local environment because of MySQL
    Not fault-proven results but eventually worked out by doing one of these:
@@ -26,7 +25,7 @@ dbeaver
    export PKG_CONFIG_PATH="/usr/local/opt/mysql-client/lib/pkgconfig"
     ```
    
-1. Better use the local mysql for testing, it's faster for local development and testing
+1. Optional: Better use the local mysql for testing, it's faster for local development and testing
    
    ```
    # Start mysql service 
@@ -47,7 +46,7 @@ dbeaver
    USE app_news;
    ```
    
-2. Optional. Connect in DBeaver with to local mysql
+2. Optional: Connect in DBeaver with to local mysql
    ```
    HOST = localhost
    user = root
@@ -55,8 +54,8 @@ dbeaver
    database = app_news
    port = 3306
    ```
-   
-1. In the root folder create a `.env` file typing in your terminal and add the necessary data:
+
+3. In the root folder create a `.env` file typing in your terminal and add the necessary data:
     ```
    make .install
     ```
@@ -71,12 +70,12 @@ dbeaver
    DB_ROOT_PASSWORD=rootpass
     ```
 
-2. In the root folder Install the repo and flask/python dependencies typing in your terminal the following commands:
+4. In the root folder Install the repo and flask/python dependencies typing in your terminal the following commands:
     ```
    make init
     ```
    
-3. For Vue.js setup follow the Readme.md from folder ./frontend or easy steps for local tests:
+5. For Vue.js setup follow the Readme.md from folder ./frontend or easy steps for local tests:
     ```
     npm install
     npm install -g @vue/cli
