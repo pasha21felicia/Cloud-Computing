@@ -11,7 +11,11 @@ services:
     depends_on:
       - db
     environment:
-      - DATABASE_URL=mysql://root:rootpass@192.168.0.4:3306/app_news
+        DB_USER: admin
+        DB_PASSWORD: adminpass
+        DB_URL: 192.168.0.4:3306/app_news
+        ORIGINS_URL: http://localhost:8080
+        JWT_SECRET_KEY: 8bf194eca505a14a48a079410fdbd100
 
   backend:
     build: ./backend
@@ -23,7 +27,11 @@ services:
     depends_on:
       - db
     environment:
-      - DATABASE_URL=mysql://root:rootpass@192.168.0.4:3306/app_news
+      DB_USER: admin
+      DB_PASSWORD: adminpass
+      DB_URL: 192.168.0.4:3306/app_news
+      ORIGINS_URL: http://localhost:8080
+      JWT_SECRET_KEY: 8bf194eca505a14a48a079410fdbd100
 
   db:
       build: ./mysql_articles
@@ -56,6 +64,11 @@ services:
         ipv4_address: 192.168.0.6
     ports:
       - "8080:8080"
+    environment:
+      VUE_APP_BACKEND_ENDPOINT: 127.0.0.1
+      VUE_APP_BACKEND_PORT: 8000
+      VUE_APP_AUTH_ENDPOINT: 127.0.0.1
+      VUE_APP_AUTH_PORT: 8001
 
 volumes:
     mysql-data:
