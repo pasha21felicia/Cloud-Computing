@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
       - name: authentification
-        image: pashadigori2000/cloud-computing:auth-image-v1
+        image: pashadigori2000/cloud-computing:auth-image-v2
         ports:
         - containerPort: 8001
         env:

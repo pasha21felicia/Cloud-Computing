@@ -19,20 +19,6 @@ spec:
     - host: frontend.k8s.com
       http:
         paths:
-#          - path: /api/
-#            pathType: Prefix
-#            backend:
-#              service:
-#                name: backend-service
-#                port:
-#                  number: 8000
-#          - path: /auth/
-#            pathType: Prefix
-#            backend:
-#              service:
-#                name: authentification-service
-#                port:
-#                  number: 8001
           - path: /
             pathType: Prefix
             backend:

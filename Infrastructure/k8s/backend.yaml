@@ -41,7 +41,7 @@ spec:
         - name: DB_URL
           value: mysql-service
         - name: ORIGINS_URL
-          value: http://127.0.0.1:30100
+          value: frontend-service
 
 ---
 
