@@ -16,7 +16,7 @@ spec:
       - name: backend
         image: pashadigori2000/cloud-computing:backend-image-v1
         ports:
-        - containerPort: 8001
+        - containerPort: 8000
         env:
         - name: DB_USER
           valueFrom:
