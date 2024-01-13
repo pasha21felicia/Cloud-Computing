@@ -1,148 +1,94 @@
-variable "backend_image_tag" {
-  description = "Backend image tag"
+# modules/kubernetes/variables.tf
+variable "db_root_password" {
+  description = "Root Password for database"
   type        = string
-  default     = "latest"
 }
-
-variable "aws_region" {
-  default = "us-east-1"
-}
-
-variable "aws_profile" {
-  default = "k8-admin"
-}
-
-variable "account_number" {
-  default = "account_number"
-}
-
-
-#network variables
-variable "mysql_aurora_ipv4_cidr" {
-  default = "0.0.0.0/0"
-}
-
-variable "db_subnet_ids" {
-  default = ""
-}
-
-# VPC Networking
-variable "vpc_id" {
-  default = "The ID of the VPC"
-}
-
-variable "vpc_name" {
-  default = ""
-}
-
-variable "private_subnets" {
-  default = ""
-}
-
-variable "name" {
-  default = ""
-}
-
-# database RDS
-
-variable "db_allocated_storage" {
-  default = 20
-}
-
-variable "db_instance_class" {
-  default = "db.t2.micro"
-}
-
-variable "db_username" {
-  default = "root"
+variable "db_user" {
+  type        = string
+  description = "Database user with admin access over database."
 }
 
 variable "db_password" {
-  default = "app_news"
-}
-
-variable "db_parameter_group_name" {
-  default = "default.mysql8.0"
-}
-
-variable "db_backup_retention_period" {
-  default = 7
-}
-
-variable "engine" {
-  default = "mysql"
-}
-
-variable "engine_version" {
-  default = "8.0"
+  type        = string
+  description = "Database password"
 }
 
 variable "db_name" {
-  default = "app_news"
-}
-
-variable "db_identifier" {
-  default = "dbappnews"
-}
-
-variable "db_endpoint_custom" {
   type        = string
-  description = "The database endpoint"
+  description = "Database name"
 }
 
-variable "db_subnet_group_name" {
-  default = ""
+variable "db_volume_path" {
+  type        = string
+  description = "Persistent Volume path for storing mysql data"
 }
-
-variable "publicly_accessible" {
-  default = ""
+variable "db_access_modes" {
+  type        = string
+  description = "Access mode for mysql data"
 }
-
-variable "skip_final_snapshot" {
-  default = ""
+variable "db_storage" {
+  type        = string
+  description = "Persistent Volume storage for storing mysql data"
 }
-
-# ECR
-
-variable "ecr_frontend" {
-  default = ""
+variable "db_volume_mount_path" {
+  type        = string
+  description = "Persistent Volume Mount path for storing mysql data"
 }
-
-variable "ecr_backend" {
-  default = ""
-}
-
-# EKS cluster
-
-variable "cluster_name" {
-  default = "mycluster"
-}
-
-variable "eks_instance_types" {
-  default = ["t2.micro"]
-}
-
-# s3_bucket bucket to store images
-variable "bucket_name" {
-  default = "app-news-store-images"
-}
-
-
-# AWS account
-
-variable "access_key" {
-  default     = ""
-  description = "The ACCESS KEY for the aws account"
-}
-
-variable "secret_key" {
-  default     = ""
-  description = "The SECRET KEY for the aws account"
-}
-
-# Backend
 
 variable "jwt_secret_key" {
-  default     = ""
-  description = "The JWT SECRET KEY for the Backend"
+  type        = string
+  description = "JWT Secret key for backend services"
+}
+
+variable "vue_app_backend_url" {
+  type        = string
+  description = "URL to access send requests to backend service"
+}
+
+variable "vue_app_auth_url" {
+  type        = string
+  description = "URL to access send requests to authentification service"
+}
+
+variable "frontend_iamge" {
+  type        = string
+  description = "Frontend image link from dockerhub"
+}
+
+variable "backend_image" {
+  type        = string
+  description = "Backend image link from dockerhub"
+}
+
+variable "auth_image" {
+  type        = string
+  description = "Authentification image link from dockerhub"
+}
+
+variable "mysql_image" {
+  type        = string
+  description = "Mysql official image link from dockerhub"
+}
+
+variable "ingress_adminer_url" {
+  type        = string
+  description = "URL resolved by host machine for adminer in ingress routing"
+}
+
+variable "ingress_frontend_url" {
+  type        = string
+  description = "URL resolved by host machine for frontend in ingress routing"
+}
+
+variable "adminer_design" {
+  type        = string
+  description = "Design theme for adminer"
+}
+variable "adminer_default_server" {
+  type        = string
+  description = "Adminer server indicating to mysql-service"
+}
+variable "adminer_image" {
+  type        = string
+  description = "Adminer official image"
 }

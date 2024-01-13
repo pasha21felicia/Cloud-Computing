@@ -5,31 +5,40 @@ services:
     build: ./authentification
     networks:
       my_network:
-        ipv4_address: 192.168.0.2
+        ipv4_address: 192.168.0.3
     ports:
       - "8001:8001"
     depends_on:
       - db
     environment:
-      - DATABASE_URL=mysql://root:rootpass@192.168.0.4:3306/app_news
+        DB_USER: admin
+        DB_PASSWORD: adminpass
+        DB_URL: 192.168.0.2:3306
+        DB_DATABASE: app_news
+        ORIGINS_URL: http://localhost:8080
+        JWT_SECRET_KEY: 8bf194eca505a14a48a079410fdbd100
 
   backend:
     build: ./backend
     networks:
       my_network:
-        ipv4_address: 192.168.0.3
+        ipv4_address: 192.168.0.4
     ports:
       - "8000:8000"
     depends_on:
       - db
     environment:
-      - DATABASE_URL=mysql://root:rootpass@192.168.0.4:3306/app_news
-
+      DB_USER: admin
+      DB_PASSWORD: adminpass
+      DB_URL: 192.168.0.2:3306
+      DB_DATABASE: app_news
+      ORIGINS_URL: http://localhost:8080
+      JWT_SECRET_KEY: 8bf194eca505a14a48a079410fdbd100
   db:
       build: ./mysql_articles
       networks:
         my_network:
-          ipv4_address: 192.168.0.4
+          ipv4_address: 192.168.0.2
       ports:
         - "3306:3306"
       environment:
@@ -39,7 +48,6 @@ services:
         MYSQL_PASSWORD: adminpass
       volumes:
         - mysql-data:/var/lib/mysql
-
   adminer:
     image: adminer
     restart: always
@@ -56,6 +64,9 @@ services:
         ipv4_address: 192.168.0.6
     ports:
       - "8080:8080"
+    environment:
+      VUE_APP_BACKEND_URL: http://127.0.0.1:8000
+      VUE_APP_AUTH_URL: http://127.0.0.1:8001
 
 volumes:
     mysql-data:

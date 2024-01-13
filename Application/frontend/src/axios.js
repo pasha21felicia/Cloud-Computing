@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 const authAxiosInstance = axios.create({
-  baseURL: 'http://127.0.0.1:8001',
+  baseURL: process.env.VUE_APP_AUTH_URL,
   headers: {
       'Content-Type': 'application/json',
       'Access-Control-Expose-Headers': 'Authorization',
@@ -10,7 +10,7 @@ const authAxiosInstance = axios.create({
 });
 
 const businessAxiosInstance = axios.create({
-  baseURL: 'http://127.0.0.1:8000',
+  baseURL: process.env.VUE_APP_BACKEND_URL,
   headers: {
       'Content-Type': 'application/json',
       'Access-Control-Expose-Headers': 'Authorization',

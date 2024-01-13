@@ -30,7 +30,7 @@ const mutations = {
 
 const actions = {
   async login({ commit }, user) {
-      const response = await authAxiosInstance.post('/login', user)
+      const response = await authAxiosInstance.post('/auth/login', user)
       try {
         // If the login was successful, commit the setToken mutation with the JWT token
         const token = response.data.access_token;
@@ -56,7 +56,7 @@ const actions = {
         }
         const token = sessionStorage.getItem('token')
         if (token) {
-            const response = await authAxiosInstance.get('/me')
+            const response = await authAxiosInstance.get('/auth/me')
             const user = response.data
             commit('setToken', token)
             commit('setUser', user)

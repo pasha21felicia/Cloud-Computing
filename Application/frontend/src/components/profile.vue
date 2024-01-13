@@ -25,7 +25,7 @@ export default {
     async getUserProfile() {
         try {
           // axiosInstance.defaults.headers.common['Authorization'] = `Bearer ${this.token}`;
-          const response = await authAxiosInstance.get('/me')
+          const response = await authAxiosInstance.get('/auth/me')
           if (response.status === 201 || response.status === 200) {
             this.loading = false
             this.user = response.data

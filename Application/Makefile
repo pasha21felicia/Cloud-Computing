@@ -20,7 +20,7 @@ help:  ## Show this help.
 	@direnv allow .
 
 .PHONY: .install
-.install: .env   ## Create .env files
+.install: .env_mysql   ## Create .env files
 
 .PHONY: init
 init: .install  ## Setup local environment installing both develop and default packages from Pipfile.

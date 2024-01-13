@@ -1,0 +1,59 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: authentification-deployment
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: authentification
+  template:
+    metadata:
+      labels:
+        app: authentification
+    spec:
+      containers:
+      - name: authentification
+        image: pashadigori2000/cloud-computing:auth-image-v2
+        ports:
+        - containerPort: 8001
+        env:
+        - name: DB_USER
+          valueFrom:
+            secretKeyRef:
+              name: mysql-secret
+              key: mysql-user
+        - name: DB_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: mysql-secret
+              key: mysql-password
+        - name: DB_DATABASE
+          valueFrom:
+            secretKeyRef:
+              name: mysql-secret
+              key: mysql-database
+        - name: JWT_SECRET_KEY
+          valueFrom:
+            secretKeyRef:
+              name: backend-secret
+              key: jwt-secret-key
+        - name: DB_URL
+          value: mysql-service
+        - name: ORIGINS_URL
+          value: frontend-service
+
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: authentification-service
+spec:
+  type: ClusterIP
+  selector:
+    app: authentification
+  ports:
+  - name: http
+    port: 8001
+    targetPort: 8001

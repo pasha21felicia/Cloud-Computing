@@ -43,7 +43,7 @@ with app_auth.app_context():
 
 
 # User Authentication
-@app_auth.route('/register', methods=['POST'])
+@app_auth.route('/auth/register', methods=['POST'])
 def register():
     form = RegistrationForm()
     if form.validate_on_submit():
@@ -60,7 +60,7 @@ def register():
 
 
 # User Login
-@app_auth.route('/login', methods=['POST'])
+@app_auth.route('/auth/login', methods=['POST'])
 def login():
     form = LoginForm()
 
@@ -81,7 +81,7 @@ def login():
 
 
 # User logout
-@app_auth.route('/logout', methods=['POST'])
+@app_auth.route('/auth/logout', methods=['POST'])
 @jwt_required()
 def logout():
     try:
@@ -94,7 +94,7 @@ def logout():
 
 
 # Get all users
-@app_auth.route('/users/get', methods=['GET'])
+@app_auth.route('/auth/users/get', methods=['GET'])
 def get_users():
     all_users = User.query.all()
     result = users_schema.dump(all_users)
@@ -115,7 +115,7 @@ def user_lookup_callback(_jwt_header, jwt_data):
     return User.query.filter_by(id=identity).one_or_none()
 
 
-@app_auth.route("/me", methods=["GET"])
+@app_auth.route("/auth/me", methods=["GET"])
 @jwt_required()
 def protected():
     # We can now access our sqlalchemy User object via `current_user`.

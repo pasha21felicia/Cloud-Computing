@@ -76,7 +76,7 @@ export default {
           confirm_password: this.confirmPassword
         }
         try {
-          await authAxiosInstance.post('/register', data)
+          await authAxiosInstance.post('/auth/register', data)
           this.$router.push({name:'login'}) // redirect to login page
         } catch (error) {
           if (error.response && error.response.status === 400) {

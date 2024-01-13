@@ -1,29 +1,13 @@
-# Base image
-FROM node:21-alpine
-
-# Set the working directory
+FROM node:lts as build-stage
 WORKDIR /app
-# Copy the package.json and package-lock.json files
-
-COPY ./package*.json ./
-
-# Install dependencies
+COPY package*.json ./
 RUN npm install
-
-# Install vue cli
-RUN npm install -g @vue/cli
-
-# Copy the application code
-
 COPY . .
-
-# Build the application
 RUN npm run build
 
-CMD ["npm", "build"]
+FROM nginx:1.21
+COPY ./.nginx/nginx.conf /etc/nginx/nginx.conf
 
-# Expose the port
-EXPOSE 8080
-
-# Start the application
-CMD ["npm", "run", "serve"]
+COPY --from=build-stage /app/dist /usr/share/nginx/html
+EXPOSE 80
+CMD ["nginx", "-g", "daemon off;"]
