@@ -31,7 +31,6 @@ def populate_db(user_data):
 
 # create all the database tables
 with app_auth.app_context():
-    print(app_auth.debug)
     db.create_all()
 
     if db.session.query(User).count() == 0:
