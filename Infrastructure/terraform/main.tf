@@ -548,6 +548,40 @@ resource "kubernetes_service" "frontend_service" {
 }
 
 
+#---------------------------------------------------------
+# Deploy Portainer using Helm
+resource "kubernetes_namespace" "monitoring" {
+  metadata {
+    name = var.namespace
+  }
+}
+resource "helm_release" "prometheus" {
+  chart      = "prometheus"
+  name       = "prometheus"
+  namespace  = var.namespace
+  repository = "https://prometheus-community.github.io/helm-charts"
+
+  set {
+    name  = "server.persistentVolume.enabled"
+    value = false
+  }
+
+  set {
+    name = "server\\.resources"
+    value = yamlencode({
+      limits = {
+        cpu    = "200m"
+        memory = "50Mi"
+      }
+      requests = {
+        cpu    = "100m"
+        memory = "30Mi"
+      }
+    })
+  }
+}
+
+
 
 
 
