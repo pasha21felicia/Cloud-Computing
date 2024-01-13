@@ -92,3 +92,7 @@ variable "adminer_image" {
   type        = string
   description = "Adminer official image"
 }
+variable "namespace" {
+  type    = string
+  default = "monitoring"
+}
