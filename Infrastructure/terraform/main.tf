@@ -216,66 +216,6 @@ resource "kubernetes_service" "adminer_service" {
 }
 
 # ----------------------------------------------------------
-
-# Define the Ingress for adminer.k8s.com
-resource "kubernetes_service_v1" "ingress_service" {
-  metadata {
-    name = "ingress-service"
-  }
-  spec {
-    port {
-      port        = 80
-      target_port = 80
-      protocol    = "TCP"
-    }
-    type = "NodePort"
-  }
-}
-
-resource "kubernetes_ingress_v1" "ingress_resource" {
-  wait_for_load_balancer = true
-  metadata {
-    name = "ingress-resource"
-  }
-  spec {
-    ingress_class_name = "nginx"
-    rule {
-      host = var.ingress_adminer_url
-      http {
-        path {
-          path = "/"
-          backend {
-            service {
-              name = "adminer-service"
-              port {
-                number = 8080
-              }
-            }
-          }
-        }
-      }
-    }
-    rule {
-      host = var.ingress_frontend_url
-      http {
-        path {
-          path = "/"
-          backend {
-            service {
-              name = "frontend-service"
-              port {
-                number = 80
-              }
-            }
-          }
-        }
-      }
-    }
-  }
-}
-
-
-# ----------------------------------------------------------
 # Define Backend
 resource "kubernetes_secret" "backend_secret" {
   metadata {
@@ -547,6 +487,63 @@ resource "kubernetes_service" "frontend_service" {
   }
 }
 
+# ----------------------------------------------------------
+# Define the Ingress for adminer.k8s.com
+resource "kubernetes_service_v1" "ingress_service" {
+  metadata {
+    name = "ingress-service"
+  }
+  spec {
+    port {
+      port        = 80
+      target_port = 80
+      protocol    = "TCP"
+    }
+    type = "NodePort"
+  }
+}
+
+resource "kubernetes_ingress_v1" "ingress_resource" {
+  wait_for_load_balancer = true
+  metadata {
+    name = "ingress-resource"
+  }
+  spec {
+    ingress_class_name = "nginx"
+    rule {
+      host = var.ingress_adminer_url
+      http {
+        path {
+          path = "/"
+          backend {
+            service {
+              name = "adminer-service"
+              port {
+                number = 8080
+              }
+            }
+          }
+        }
+      }
+    }
+    rule {
+      host = var.ingress_frontend_url
+      http {
+        path {
+          path = "/"
+          backend {
+            service {
+              name = "frontend-service"
+              port {
+                number = 80
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
 
 #---------------------------------------------------------
 # Deploy Portainer using Helm
@@ -581,7 +578,96 @@ resource "helm_release" "prometheus" {
   }
 }
 
+#---------------------------------------------------------
+# Deploy Grafana using Helm
+
+resource "helm_release" "grafana" {
+  chart      = "grafana"
+  name       = "grafana"
+  repository = "https://grafana.github.io/helm-charts"
+  namespace  = var.namespace
+
+#  values = [
+#    templatefile("${path.module}/templates/grafana-values.yaml", {
+#      admin_existing_secret = kubernetes_secret.grafana.metadata[0].name
+#      admin_user_key        = "admin-user"
+#      admin_password_key    = "admin-password"
+#      prometheus_svc        = "${helm_release.prometheus.name}-server"
+#      replicas              = 1
+#    })
+#  ]
+
+  set {
+    name  = "externalServices.prometheus.host"
+    value = "${helm_release.prometheus.name}-server"
+  }
+}
 
 
+resource "kubernetes_namespace" "portainer" {
+  metadata {
+    name = "portainer"
+  }
+}
+
+
+# ----------------------------------------------------------
+# Define the Ingress for adminer.k8s.com
+resource "kubernetes_service_v1" "ingress_service_monitoring" {
+  metadata {
+    name = "ingress-service-monitoring"
+  }
+  spec {
+    port {
+      port        = 80
+      target_port = 80
+      protocol    = "TCP"
+    }
+    type = "NodePort"
+  }
+}
+
+resource "kubernetes_ingress_v1" "ingress_monitoring" {
+  wait_for_load_balancer = true
+  metadata {
+    name = "ingress-monitoring"
+    namespace = "monitoring"
+  }
+  spec {
+    ingress_class_name = "nginx"
+    rule {
+      host = "prometheus.k8s.com"
+      http {
+        path {
+          path = "/"
+          backend {
+            service {
+              name = "prometheus-server"
+              port {
+                number = 9090
+              }
+            }
+          }
+        }
+      }
+    }
+    rule {
+      host = "grafana.k8s.com"
+      http {
+        path {
+          path = "/"
+          backend {
+            service {
+              name = "grafana"
+              port {
+                number = 3000
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
 
 
