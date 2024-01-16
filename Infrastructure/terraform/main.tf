@@ -14,22 +14,6 @@ resource "kubernetes_secret" "mysql_secret" {
   type = "Opaque"
 }
 
-resource "kubernetes_persistent_volume_claim" "mysql_pvc" {
-  metadata {
-    name = "mysql-pv-claim"
-    labels = {
-      app = "mysql"
-    }
-  }
-  spec {
-    access_modes = [var.db_access_modes]
-    resources {
-      requests = {
-        storage = var.db_storage # Should match the capacity in mysql_pv
-      }
-    }
-  }
-}
 resource "kubernetes_persistent_volume" "mysql_pv" {
   metadata {
     name = "mysql-pv-volume"
@@ -46,6 +30,23 @@ resource "kubernetes_persistent_volume" "mysql_pv" {
     persistent_volume_source {
       vsphere_volume {
         volume_path = var.db_volume_path
+      }
+    }
+  }
+}
+
+resource "kubernetes_persistent_volume_claim" "mysql_pvc" {
+  metadata {
+    name = "mysql-pv-claim"
+    labels = {
+      app = "mysql"
+    }
+  }
+  spec {
+    access_modes = [var.db_access_modes]
+    resources {
+      requests = {
+        storage = var.db_storage
       }
     }
   }
@@ -586,16 +587,6 @@ resource "helm_release" "grafana" {
   name       = "grafana"
   repository = "https://grafana.github.io/helm-charts"
   namespace  = var.namespace
-
-#  values = [
-#    templatefile("${path.module}/templates/grafana-values.yaml", {
-#      admin_existing_secret = kubernetes_secret.grafana.metadata[0].name
-#      admin_user_key        = "admin-user"
-#      admin_password_key    = "admin-password"
-#      prometheus_svc        = "${helm_release.prometheus.name}-server"
-#      replicas              = 1
-#    })
-#  ]
 
   set {
     name  = "externalServices.prometheus.host"
